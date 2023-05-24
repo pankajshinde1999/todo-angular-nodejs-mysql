@@ -1,0 +1,15 @@
+<div>
+    <h2>Todo List</h2>
+    <form>
+      <input type="text" [(ngModel)]="newTask" placeholder="New task" />
+      <button (click)="createTask(newTask)">Add</button>
+    </form>
+    <ul>
+      <li *ngFor="let task of tasks">
+        <input type="checkbox" [(ngModel)]="task.completed" (change)="updateTask(task)" />
+        <span [ngClass]="{ 'completed': task.completed }">{{ task.description }}</span>
+        <button (click)="deleteTask(task)">Delete</button>
+      </li>
+    </ul>
+  </div>
+  

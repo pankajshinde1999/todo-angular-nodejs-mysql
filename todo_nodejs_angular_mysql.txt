@@ -1,0 +1,18 @@
+create database todo_db and create table tasks with  id (int, primary key, auto increment) title (varchar) description (text) completed (boolean) created_at (datetime) updated_at (datetime)
+create folder todo in nodejs angular 
+in node js folder 
+C:\Users\PankajShinde\Desktop\Learn\app\angular\angular_mqsql_todo>npm init -fy
+
+C:\Users\PankajShinde\Desktop\Learn\app\angular\angular_mqsql_todo>npm install express mysql body-parser cors --save
+
+create apis 
+
+
+angular
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
+PS C:\Users\PankajShinde\Desktop\Learn\app\angular\angular_mqsql_todo> ng new angular-todo-app
+
+ng generate component todo-list
+
+cd .\angular-todo-app\
+PS C:\Users\PankajShinde\Desktop\Learn\app\angular\angular_mqsql_todo\angular-todo-app> ng generate component todo-list
