@@ -1,15 +1,32 @@
-<div>
-    <h2>Todo List</h2>
-    <form>
-      <input type="text" [(ngModel)]="newTask" placeholder="New task" />
-      <button (click)="createTask(newTask)">Add</button>
-    </form>
-    <ul>
-      <li *ngFor="let task of tasks">
-        <input type="checkbox" [(ngModel)]="task.completed" (change)="updateTask(task)" />
-        <span [ngClass]="{ 'completed': task.completed }">{{ task.description }}</span>
-        <button (click)="deleteTask(task)">Delete</button>
-      </li>
-    </ul>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <div class="col-md-4 mb-4" *ngFor="let task of tasks">
+          <mat-card class="example-card h-100 custom-card">
+            <mat-card-header>
+              <mat-card-title>{{ task.title }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-description">
+                <p>{{ task.description }}</p>
+                <div class="dates">
+                  <mat-card-subtitle class="created-date">Created_On - {{ task.created_at | date: "short" }}</mat-card-subtitle>
+                  <mat-card-subtitle class="updated-date">UpDated_On - {{ task.updated_at | date: "short"}}</mat-card-subtitle>
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-actions class="card-actions">
+              <button (click)="UpdateTasks(task)" mat-icon-button class="action-button update-button">
+                <mat-icon >edit</mat-icon>
+              </button>
+              <button  (click) = "DeleteTasks(task.id)" mat-icon-button class="action-button delete-button">
+                <mat-icon> delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
   </div>
-  
+</div>

@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-todo-app';
+  submittedFormData: any;
+
+  handleFormSubmission(formData: any) {
+    console.log(formData)
+    this.submittedFormData = formData;
+  }
 }

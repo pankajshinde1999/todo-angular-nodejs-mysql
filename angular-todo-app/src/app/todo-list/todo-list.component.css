@@ -1,0 +1,23 @@
+.custom-card {
+    background-color: #e7f27f; /* Replace with your desired color */
+  }
+  .card-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 8px;
+  }
+  
+  .action-button {
+    background-color: lightgray;
+    transition: background-color 0.3s ease;
+  }
+  
+  .action-button:hover {
+    background-color: darkgray;
+  }
+  
+  .update-button {
+    margin-right: 8px;
+  }
+  

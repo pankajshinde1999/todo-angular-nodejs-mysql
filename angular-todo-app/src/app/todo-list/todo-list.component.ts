@@ -1,68 +1,76 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Observable } from 'rxjs';
+import { TasksService } from '../tasks.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateComponent } from '../update/update.component';
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.css'],
 })
 export class TodoListComponent implements OnInit {
-  tasks: any[];
+  @Input() formData: any;
+  tasks: any = [];
+  constructor(private http: HttpClient , private tservice : TasksService,private cdRef: ChangeDetectorRef,private dialog: MatDialog) { 
 
-  constructor(private http: HttpClient) { }
+  }
+  ngOnChanges() {
+    // Manually trigger change detection to update the view
+    this.cdRef.detectChanges();
+    this.getTasks();
+  }
 
   ngOnInit() {
     this.getTasks();
   }
-
   getTasks() {
-    this.http.get<any[]>('http://localhost:3000/api/tasks').subscribe(
-      (response) => {
-        this.tasks = response;
-      },
-      (error) => {
-        console.log(error);
+    this.tservice.getTasks().subscribe(
+      data=>{
+        this.tasks = data
+        console.log (this.tasks)
       }
-    );
+    )
   }
-
-  createTask(description: string) {
-    const task = { description };
-    this.http.post<any>('http://localhost:3000/api/tasks', task).subscribe(
-      (response) => {
-        task.id = response.id;
-        this.tasks.push(task);
-      },
-      (error) => {
-        console.log(error);
+  DeleteTasks(id:any){
+    console.log(id)
+    this.tservice.DeleteTasks(id).subscribe(
+      data =>
+      {
+        this.tasks=[]
+        this.getTasks()
       }
-    );
+    )
+  }
+  // updatep(data: any) {
+  //   const dialogRef = this.dialog.open(UpdateComponent, {
+  //     height: '80%', width: '80%',
+  //     data: {
+  //       value: data,
+  //       title: 'Product'
+  //     }
+  //   })
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('Dialog was closed');
+  //     console.log('Returned value:', result);
+  //     this.getProducts()
+  //     // Perform actions with the returned value
+  //   });;
+  // }
+  UpdateTasks(data:any){
+    const dialogRef = this.dialog.open(UpdateComponent, {
+          height: '80%', width: '80%',
+          data: {
+            value: data,
+            title: 'task'
+          }
+        })
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('Dialog was closed');
+          console.log('Returned value:', result);
+          this.getTasks()
+        });;
+
   }
 
-  updateTask(task: any) {
-    this.http
-      .put<any>(`http://localhost:3000/api/tasks/${task.id}`, task)
-      .subscribe(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
-
-  deleteTask(task: any) {
-    this.http
-      .delete<any>(`http://localhost:3000/api/tasks/${task.id}`)
-      .subscribe(
-        (response) => {
-          const index = this.tasks.findIndex((t) => t.id === task.id);
-          this.tasks.splice(index, 1);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
 }
