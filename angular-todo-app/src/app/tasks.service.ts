@@ -20,7 +20,19 @@ export class TasksService {
     return this.http.delete(`${this.baseUrl}/deletetasks/${id}`)
   }
   //update
-  UpdateTasks(body: any,id:any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/updatetasks/${id}`,body)
+  UpdateTasks(body: any, id: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/updatetasks/${id}`, body)
+  }
+  //regisger
+  AddUser(body: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/register`, body)
+  }
+  //login
+  LoginUser(body: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, body)
+  }
+  //getTasksbyid
+  getTasksbyid(id: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getbyidtasks/${id}`)
   }
 }

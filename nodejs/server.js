@@ -29,13 +29,13 @@ app.get('/getalltasks', (req, res) => {
 
 // Get a single task
 app.get('/getbyidtasks/:id', (req, res) => {
-    const taskId = req.params.id;
-    connection.query('SELECT * FROM tasks WHERE id = ?', taskId, (err, results) => {
+    const user_id = req.params.id;
+    connection.query('SELECT * FROM tasks WHERE user_id = ?', user_id, (err, results) => {
         if (err) throw err;
         if (results.length === 0) {
-            return res.status(404).json({ message: `Task Do not exist ${taskId} ` });
+            return res.status(404).json({ message: `Task Do not exist ${user_id} ` });
         }
-        res.json(results[0]);
+        res.json(results);
 
     });
 });
@@ -58,7 +58,6 @@ app.put('/updatetasks/:id', (req, res) => {
     const task = req.body;
     task.updated_at = new Date();
     task.completed = true;
-
     connection.query('SELECT * FROM tasks WHERE id = ?', taskId, (err, results) => {
         if (err) throw err;
         // Check if task exists
@@ -91,33 +90,33 @@ app.delete('/deletetasks/:id', (req, res) => {
 });
 // POST /api/register
 app.post('/register', (req, res) => {
-    const { username, password } = req.body;
+    const { email, password, name } = req.body;
     // Check if the username is already taken
-    connection.query('SELECT * FROM users WHERE username = ?', username, (err, results) => {
+    connection.query('SELECT * FROM users WHERE email = ?', email, (err, results) => {
         if (err) throw err;
         if (results.length > 0) {
-            return res.status(409).json({ message:`Username : ${username} already taken` });
+            return res.status(409).json({ message: `email : ${email} already taken` });
         }
         // Insert the new user into the database
-        connection.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (err) => {
+        connection.query('INSERT INTO users (email, password,name) VALUES (?, ?,?)', [email, password, name], (err) => {
             if (err) throw err;
-            res.json({ message: `User : ${username} registered successfully` });
+            res.json({ message: `User : ${email} registered successfully` });
         });
     });
 });
 // POST /api/login
 app.post('/login', (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // Check if the user exists and the password is correct
-    connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results) => {
+    connection.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password], (err, results) => {
         if (err) throw err;
 
         if (results.length === 0) {
-            return res.status(401).json({ message: 'Invalid username or password' });
+            return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        res.json({ message: `User : ${username} logged in successfully` });
+        res.json({ user: results });
     });
 });
 

@@ -1,4 +1,4 @@
-import { Component,EventEmitter,Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TasksService } from '../tasks.service';
 
@@ -10,7 +10,9 @@ import { TasksService } from '../tasks.service';
 export class CreateComponent {
   @Output() formSubmitted = new EventEmitter<any>();
   noteform: any;
-  constructor(private formBuilder: FormBuilder,private tservice: TasksService) {
+  userid: string | null;
+  constructor(private formBuilder: FormBuilder, private tservice: TasksService) {
+    this.userid = localStorage.getItem("id")
     this.initialization()
   }
   initialization() {
@@ -19,11 +21,12 @@ export class CreateComponent {
       Description: ['', Validators.required],
     })
   }
-  OnSubmit(){
+  OnSubmit() {
     console.log(this.noteform.getRawValue())
     let body = this.noteform.getRawValue()
+    body.user_id = this.userid
     this.tservice.createTasks(body).subscribe(
-      (res:any)=>{
+      (res: any) => {
         console.log(res)
         this.noteform.reset()
         this.formSubmitted.emit(res);

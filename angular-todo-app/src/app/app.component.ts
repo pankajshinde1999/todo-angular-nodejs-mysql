@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,11 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-todo-app';
-  submittedFormData: any;
-
-  handleFormSubmission(formData: any) {
-    console.log(formData)
-    this.submittedFormData = formData;
+  title(title: any) {
+    throw new Error('Method not implemented.');
   }
+
 }

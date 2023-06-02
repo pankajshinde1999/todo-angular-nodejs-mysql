@@ -14,26 +14,26 @@ export class UpdateComponent {
   categoriesFrom: any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-  private formBuilder: FormBuilder, private tservice: TasksService,
-  private router: Router) {
+    private formBuilder: FormBuilder, private tservice: TasksService,
+    private router: Router) {
     this.categories = data['value']
     console.log('categories', this.categories)
     this.inilizac()
-}
-inilizac() {
-  this.categoriesFrom = this.formBuilder.group({
-    title: ['', Validators.required],
-    description: ['', Validators.required]
-  });
-}ngOnInit(): void{
+  }
+  inilizac() {
+    this.categoriesFrom = this.formBuilder.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required]
+    });
+  } ngOnInit(): void {
     this.categoriesFrom.patchValue({
       title: this.categories.title,
       description: this.categories.description
     })
   }
-onSubmit() {
+  onSubmit() {
     let body = this.categoriesFrom.getRawValue()
-    this.tservice.UpdateTasks(body,this.categories.id).subscribe(
+    this.tservice.UpdateTasks(body, this.categories.id).subscribe(
       (data: any) => {
         // this.router.navigate(['/home/products'])
         console.log(data)
